@@ -3,10 +3,10 @@
 requiredPatternSize = 30; % Quantidade de atributos requeridas para cada padrão de entrada
 phonemesCount = 6; % Quantidade de fonemas/classes
 patternsByPhonem = 40; % Quantidade de padrões para cada fonema
-plotInstances = 1; % Define se a intâncias serão exibidas em forma gráfica após o tratamento.
+plotInstances = 0; % Define se a intâncias serão exibidas em forma gráfica após o tratamento.
 
 [X, Y] = loadData(requiredPatternSize, (phonemesCount*patternsByPhonem), phonemesCount, plotInstances);
-save("processed_dataset.mat", "X", "Y");
+%save("processed_dataset.mat", "X", "Y");
 
 function[Y] = applyHotEncode(optionsCount, label)
     Y = zeros(optionsCount, 1);
@@ -27,7 +27,7 @@ function[X, Y] = loadData(requiredPatternSize, totalInstances, phonemesCount, pl
     instanceCount = 1;
     % Itera sobre todas as pastas
     for key = keys(phonemeConfig.classMap)
-        %key{1}
+        %key{1}        
         filesInDirectory = dir(key{1});
         filesInDirectorySize = size(filesInDirectory, 1); 
         % Itera sobre todos os arquivos na pasta atual
@@ -48,7 +48,7 @@ function[X, Y] = loadData(requiredPatternSize, totalInstances, phonemesCount, pl
                 end
                 X(instanceCount, :) = inputPattern(1, :);               
                 % Creating Y
-                label =  phonemeConfig.classMap(key{1});
+                label =  phonemeConfig.classMap(key{1});                
                 Y(:, instanceCount) = applyHotEncode(phonemesCount, label);
                 instanceCount = instanceCount + 1;
             end
@@ -64,17 +64,4 @@ function[X, Y] = loadData(requiredPatternSize, totalInstances, phonemesCount, pl
     end  
     %Y
     %max
-end
-
-% Realiza a compactação da entrada 
-function[X_output] = compactInput(input, numberOfGroups, groupSize)    
-    X_output = zeros(1, numberOfGroups);      
-    startPosition = 1;
-    % Para cada atributo no padrão de saída, cálcula a média do padrão
-    % de entrada
-    for j=1:numberOfGroups        
-        slice = input(startPosition:(startPosition + groupSize - 1));
-        X_output(1, j) = mean(slice);
-        startPosition = startPosition + groupSize;
-    end  
 end

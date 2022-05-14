@@ -19,7 +19,7 @@ function doTraining(maxEpochs, numberOfTrainings, I, H, O, eta, eta_gaussian)
     processed_dataset = load('processed_dataset.mat');
     X = processed_dataset.X;
     Y = processed_dataset.Y;
-    X_norm = normalizeInput(X);
+    X_norm = normalizeInput(X);    
     [X_train, Y_train, X_val, Y_val, X_test, Y_test] = splitData(X_norm, Y);
     finalErrors = zeros(maxEpochs, 1);  
     finalValErrors = zeros(maxEpochs, 1);
@@ -212,24 +212,6 @@ function [hiddenNeurons] = wta(inputMatrix, hiddenNeurons, eta_gaussian)
             break;
         end    
     end  
-end
-
-% Normaliza os dados de entrada para [0,1]
-function [X_output] =  normalizeInput(X_input)
-    X_output = X_input;
-    numberOfColumns = size(X_input, 2);
-    % Para cada coluna
-    for i = 1:numberOfColumns        
-        X_max = max(X_output(:, i));
-        X_min = min(X_output(:, i));   
-        numerator = X_output(:, i) - X_min;
-        denominator = (X_max-X_min);
-        if denominator ~= 0
-            X_output(:, i) = numerator./denominator;
-        else
-            X_output(:, i) = 0;
-        end       
-    end    
 end
 
 % Realiza a divisão dos dados contidos em 'X' e 'Y' em:
