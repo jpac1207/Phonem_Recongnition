@@ -2,8 +2,8 @@
 % dataset estruturado, aplicando compactação por média.
 requiredPatternSize = 30; % Quantidade de atributos requeridas para cada padrão de entrada
 phonemesCount = 6; % Quantidade de fonemas/classes
-patternsByPhonem = 20; % Quantidade de padrões para cada fonema
-plotInstances = 0; % Define se a intâncias serão exibidas em forma gráfica após o tratamento.
+patternsByPhonem = 40; % Quantidade de padrões para cada fonema
+plotInstances = 1; % Define se a intâncias serão exibidas em forma gráfica após o tratamento.
 
 [X, Y] = loadData(requiredPatternSize, (phonemesCount*patternsByPhonem), phonemesCount, plotInstances);
 save("processed_dataset.mat", "X", "Y");

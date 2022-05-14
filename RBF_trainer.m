@@ -45,6 +45,9 @@ function doTraining(maxEpochs, numberOfTrainings, I, H, O, eta, eta_gaussian)
     plot((1:maxEpochs), meanFinalValErrors, 'x');
     hold off;
     legend('Média Erros Treinamento', 'Média Erros Validação');
+    ylabel('Erro Quadrático Médio');
+    xlabel('Épocas');
+    title('Erros de Treino e Validação do Treinamento');
 end
 
 % Realiza o treinamento da RBF, de acordo com os parametros:
@@ -250,7 +253,7 @@ function [X_train, Y_train, X_val, Y_val, X_test, Y_test] = splitData(X, Y)
     initOfValRows = (trainRows + 1);
     valIndexes = randIndexes(initOfValRows:(initOfValRows + valRows - 1));
     initOfTestRows = (initOfValRows + valRows);
-    testIndexes = randIndexes(initOfTestRows:(initOfTestRows + testRows - 1))
+    testIndexes = randIndexes(initOfTestRows:(initOfTestRows + testRows - 1));
 
     X_train = X(trainIndexes, :);
     Y_train = Y(:, trainIndexes);

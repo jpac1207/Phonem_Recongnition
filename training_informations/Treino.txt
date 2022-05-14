@@ -1,18 +1,13 @@
-testIndexes =
-
-    80    25   113   107    90    46    82    78    76    55   104    10
-
-
 bestError =
 
-    0.1648
+    0.1148
 
 
 meanFinalError =
 
-    0.1726
+    0.1270
 
 
 meanFinalValError =
 
-    0.1361
+    0.1891
