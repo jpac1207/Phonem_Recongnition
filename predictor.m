@@ -1,7 +1,7 @@
 phonemesCount = 3;
 requiredPatternSize = 30;
 
-test(requiredPatternSize, phonemesCount)
+test(requiredPatternSize, phonemesCount);
 
 function test(requiredPatternSize, phonemesCount)
     phonemeConfig.phonemClassMap = containers.Map({'DI', 'REI', 'TA', 'ES', 'QUER', 'DA'}, {1, 2, 3, 4, 5, 6}); 
@@ -12,8 +12,8 @@ function test(requiredPatternSize, phonemesCount)
     for i=1:phonemesCount
         phoneme = upper(input("Escolha um tipo de fonema: ", "s"));
         if(isKey(phonemeConfig.phonemClassMap, phoneme))
-            index  = floor(str2double(input("Escolha um índice de áudio (Entre 1 e 40): ", "s")));                      
-            if(isnan(index) || (index < 1 || index > 40))
+            index  = floor(str2double(input("Escolha um índice de áudio (Entre 1 e 60): ", "s")));                      
+            if(isnan(index) || (index < 1 || index > 60))
                 break
             else
                 classId = phonemeConfig.phonemClassMap(phoneme);
@@ -32,21 +32,6 @@ function test(requiredPatternSize, phonemesCount)
     else
         disp(predictions)
     end
-end
-
-% Realiza predição da classe de um dado padrão de entrada 'X', utilizando
-% os parâmetros: 
-% hiddenVsInputWeights -> Matriz que representa os pesos aprendidos para as
-% conexões entre 
-function [Y, prob] = testRBF(hiddenVsInputWeights, outputVsHiddenWeights, outputVsHiddenBias, sigmas, X)     
-    mi_h = sqrt(sum((X - hiddenVsInputWeights').^2))';            
-    Y_h = exp(-((mi_h.^2)./((2*sigmas).^2)));             
-    % ------- Output Layer -------    
-    net_o = outputVsHiddenWeights * Y_h + outputVsHiddenBias * ones(1, size(Y_h, 2));
-    Y_net = exp(net_o)/sum(exp(net_o));  % Aplicação da softmax                               
-    [~, index] = max(Y_net);
-    Y = index;
-    prob = Y_net(index);
 end
 
 % Realiza o carregamento dos pesos, aplica normalização e invoca função de

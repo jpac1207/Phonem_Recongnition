@@ -1,7 +1,7 @@
 % ---------- Parâmetros Gerais ----------
 maxEpochs = 50000; % Número de épocas do treinamento
 numberOfTrainings = 10; % Número de treinamentos a serem utilizados
-H = 30; % Número de neurônios na camada escondida
+H = 25; % Número de neurônios na camada escondida
 I = 30; % Número de neurônios na camada de entrada
 O = 6; % Número de neurônios na camada de saída
 eta = 0.05; % Learning Rate utilizado no cálculo do backpropagation.
@@ -21,8 +21,10 @@ function doTraining(maxEpochs, numberOfTrainings, I, H, O, eta, eta_gaussian)
     Y = processed_dataset.Y;
     X_norm = normalizeInput(X);    
     [X_train, Y_train, X_val, Y_val, X_test, Y_test] = splitData(X_norm, Y);
-    finalErrors = zeros(maxEpochs, 1);  
+    numberOfTestInstances = size(X_test, 1);
+    finalErrors = zeros(maxEpochs, 1);   
     finalValErrors = zeros(maxEpochs, 1);
+    accuracies = zeros(numberOfTrainings, 1);
     bestError = 1;     
     
     for i = 1:numberOfTrainings
@@ -30,6 +32,17 @@ function doTraining(maxEpochs, numberOfTrainings, I, H, O, eta, eta_gaussian)
             X_train', Y_train, X_val', Y_val); 
         finalErrors = finalErrors + errors;
         finalValErrors = finalValErrors + valErrors;
+        % Test
+        rightAnswers = 0;
+        for j=1:numberOfTestInstances            
+            [prediction, ~] = testRBF(hiddenVsInputWeights, outputVsHiddenWeights, outputVsHiddenBias, sigmas, X_test(j, :)');
+            [~, pos] = max(Y_test(:, j));   
+            if(prediction == pos)
+                rightAnswers = rightAnswers + 1;
+            end
+        end
+        testAccuracy = rightAnswers/numberOfTestInstances;
+        accuracies(i) = testAccuracy;        
         if(errors(maxEpochs) < bestError)
             bestError = errors(maxEpochs);
             save('bestWeights.mat', 'hiddenVsInputWeights', 'outputVsHiddenWeights', 'outputVsHiddenBias', 'sigmas');
@@ -37,6 +50,7 @@ function doTraining(maxEpochs, numberOfTrainings, I, H, O, eta, eta_gaussian)
     end
     meanFinalErrors = (finalErrors./numberOfTrainings);
     meanFinalValErrors = (finalValErrors./numberOfTrainings);
+    accuracies = mean(accuracies)    
     bestError
     meanFinalError = meanFinalErrors(maxEpochs)
     meanFinalValError = meanFinalValErrors(maxEpochs)
@@ -223,9 +237,9 @@ end
 % Y_test -> Padrões de saída a serem utilizados no testw (10%)
 function [X_train, Y_train, X_val, Y_val, X_test, Y_test] = splitData(X, Y)
     numberOfRows = size(X, 1);
-    trainProportion = 0.65;
+    trainProportion = 0.7;
     trainRows = floor(numberOfRows * trainProportion);
-    valProportion = 0.25;
+    valProportion = 0.2;
     valRows = floor(numberOfRows * valProportion);
     testProportion = 0.1;
     testRows = floor(numberOfRows * testProportion);    

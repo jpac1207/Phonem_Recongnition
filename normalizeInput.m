@@ -1,4 +1,4 @@
-% Normaliza os dados de entrada para [0,1]
+% Normaliza os dados da entrada 'X_input' para o domínio [0,1]
 function [X_output] =  normalizeInput(X_input)
     X_output = X_input;
     numberOfColumns = size(X_input, 2);

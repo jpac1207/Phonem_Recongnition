@@ -1,13 +1,17 @@
+accuracies =
+
+    0.8500
+
+
 bestError =
 
-    0.1148
+    0.1809
 
 
 meanFinalError =
 
-    0.1270
-
+    0.1966
 
 meanFinalValError =
 
-    0.1891
+    0.2157
